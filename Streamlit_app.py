@@ -26,7 +26,7 @@ with dataset:
     st.success('Thank you for inputting a dataset!')
 
     st.header("Dataset preview")
-    df = pd.read_csv(data_file)
+    df = pd.read_csv(data_file, encoding= 'unicode_escape')
     st.dataframe(df)
 # Creating a place for the user to upload their dataset file and then we are 
 # turning that into a pandas dataframe
