@@ -41,6 +41,7 @@ with modelFeatureSelection:
     time = st.sidebar.selectbox("Time column name", columns)
     y = st.sidebar.selectbox("Y variable column name", columns)
     
+    T0_val = st.sidebar.number_input("T0", value = 0) 
     A = st.sidebar.number_input("A", value = 11) 
     Ea = st.sidebar.number_input("Ea", value = -10000) 
     B = st.sidebar.number_input("B", value = -0.05)
@@ -90,7 +91,7 @@ df = df.reset_index()
 
 @st.cache()
 def optimising_parameters(model_selector):
-    optimised_parameters = minimize(model_error_squared, x0, args=(df[y], model_selector, df[temperature], df[time], df[humidity]), method='Nelder-Mead', jac=None, options={'maxiter': 99999, 'maxfev': None, 'disp': False, 'return_all': False, 'initial_simplex': None, 'xatol': 0.000001, 'fatol': 0.000001, 'adaptive': False})
+    optimised_parameters = minimize(model_error_squared, x0, args=(df[y], model_selector, df[temperature], df[time], df[humidity], T0_val), method='Nelder-Mead', jac=None, options={'maxiter': 99999, 'maxfev': None, 'disp': False, 'return_all': False, 'initial_simplex': None, 'xatol': 0.000001, 'fatol': 0.000001, 'adaptive': False})
     # Optimising parameters
     return optimised_parameters["x"]
 # We are caching this function to optimise the performance of the web app 
@@ -101,7 +102,7 @@ with modelTraining:
     
     st.write("The temperature, humidity, time and y variable columns have been taken from the inputs on the left sidebar and a dataframe has been created. From this 4 column dataframe - all the rows with <NA> values have been omitted and the model constants have been optimised to give the following graph and constant values")
     
-    y_predicted = model_selector(optimising_parameters(model_selector), df[temperature], df[time], df[humidity])
+    y_predicted = model_selector(optimising_parameters(model_selector), df[temperature], df[time], df[humidity], T0_val)
     # Predicted y values with the new optimised model parameters
     
     model_metrics = actual_vs_predicted_metrics(df[y], y_predicted)
@@ -149,7 +150,7 @@ with modelTraining:
     if modelForLoopSelection == "Yes":
         metric_array = []
         for model in selected_models:
-            x = actual_vs_predicted_metrics(model(optimising_parameters(model),df[temperature], df[time], df[humidity]), df[y])
+            x = actual_vs_predicted_metrics(model(optimising_parameters(model),df[temperature], df[time], df[humidity], T0_val), df[y])
             metric_array.append(x)
             
         
