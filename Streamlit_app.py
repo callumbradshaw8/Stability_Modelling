@@ -127,7 +127,18 @@ with modelTraining:
     
     st.pyplot(fig)
     
-    st.write({"A":optimising_parameters(model_selector)[0], "Ea":optimising_parameters(model_selector)[1], "B":optimising_parameters(model_selector)[2], "n":optimising_parameters(model_selector)[3], "Ap":optimising_parameters(model_selector)[4], "EaRp":optimising_parameters(model_selector)[5], "Bp":optimising_parameters(model_selector)[6]})
+    
+    six_params_models = [model9_calc, model10_calc]
+    four_params_models = [model5_calc, model6_calc]
+    three_params_model = [model1_calc, model2_calc, model3_calc, model4_calc, model7_calc]
+    if model_selector in six_params_models:
+        st.write({"A":optimising_parameters(model_selector)[0], "Ea":optimising_parameters(model_selector)[1], "B":optimising_parameters(model_selector)[2], "Ap":optimising_parameters(model_selector)[4], "EaRp":optimising_parameters(model_selector)[5], "Bp":optimising_parameters(model_selector)[6]})
+    elif model_selector in four_params_models:
+        st.write({"A":optimising_parameters(model_selector)[0], "Ea":optimising_parameters(model_selector)[1], "B":optimising_parameters(model_selector)[2], "n":optimising_parameters(model_selector)[3]})
+    elif model_selector in three_params_models:
+        st.write({"A":optimising_parameters(model_selector)[0], "Ea":optimising_parameters(model_selector)[1], "B":optimising_parameters(model_selector)[2]})
+    else:
+        st.write("Need to check code: model not in validation check")
     # Printing out the new set of optimised parameters
     
     
