@@ -41,7 +41,7 @@ with modelFeatureSelection:
     time = st.sidebar.selectbox("Time column name", columns)
     y = st.sidebar.selectbox("Y variable column name", columns)
     
-    T0_val = st.sidebar.number_input("T0", value = 0) 
+    T0_val = st.sidebar.number_input("T0", value = 0, step = 0.01) 
     A = st.sidebar.number_input("A", value = 11) 
     Ea = st.sidebar.number_input("Ea", value = -10000) 
     B = st.sidebar.number_input("B", value = -0.05)
